@@ -84,8 +84,6 @@ public class RockPaperScissorGUI extends JFrame implements ActionListener {
         scissorButton.setFont(new Font("Dialog", Font.PLAIN, 18));
         rockButton.addActionListener(this);
         add(scissorButton);
-
-        showDialog("Test MEssage");
     }
 
     private void showDialog(String message) {
