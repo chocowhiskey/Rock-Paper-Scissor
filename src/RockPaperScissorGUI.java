@@ -3,11 +3,16 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class RockPaperScissorGUI extends JFrame {
+public class RockPaperScissorGUI extends JFrame implements ActionListener {
 
     // player buttons
     JButton rockButton, paperButton, scissorButton;
+
     JLabel computerChoice;
+
+    JLabel computerScoreLabel, playerScoreLabel;
+
+    RockPaperScissor rockPaperScissor;
 
     public RockPaperScissorGUI() {
         // GUI implementation for Rock Paper Scissor game
@@ -23,6 +28,10 @@ public class RockPaperScissorGUI extends JFrame {
 
         // Load GUI in the center of the screen everytime we run the application
         setLocationRelativeTo(null);
+
+        // Initialize backend ob
+        rockPaperScissor = new RockPaperScissor();
+
         // Add GUI components
         addGuiComponents();
     }
@@ -32,7 +41,7 @@ public class RockPaperScissorGUI extends JFrame {
         // Example: JButton rockButton = new JButton("Rock");
         // Set bounds and add to the frame
         // Create computer score label
-        JLabel computerScoreLabel = new JLabel("Computer Score: 0");
+        computerScoreLabel = new JLabel("Computer Score: 0");
         computerScoreLabel.setBounds(0, 43, 450, 30);
         computerScoreLabel.setFont(new Font("Dialog", Font.BOLD, 26));
         computerScoreLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -47,11 +56,11 @@ public class RockPaperScissorGUI extends JFrame {
         computerChoice.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         add(computerChoice);
 
-        JLabel playerLabel = new JLabel("Player Score: 0");
-        playerLabel.setBounds(0, 350, 450, 30);
-        playerLabel.setFont(new Font("Dialog", Font.BOLD, 26));
-        playerLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        add(playerLabel);
+        playerScoreLabel = new JLabel("Player Score: 0");
+        playerScoreLabel.setBounds(0, 350, 450, 30);
+        playerScoreLabel.setFont(new Font("Dialog", Font.BOLD, 26));
+        playerScoreLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        add(playerScoreLabel);
 
         // Player buttons
 
@@ -59,18 +68,21 @@ public class RockPaperScissorGUI extends JFrame {
         rockButton = new JButton("Rock");
         rockButton.setBounds(40, 390, 105, 80);
         rockButton.setFont(new Font("Dialog", Font.PLAIN, 18));
+        rockButton.addActionListener(this);
         add(rockButton);
 
         // paper
         paperButton = new JButton("Paper");
         paperButton.setBounds(160, 390, 105, 80);
         paperButton.setFont(new Font("Dialog", Font.PLAIN, 18));
+        rockButton.addActionListener(this);
         add(paperButton);
 
         // scissor
-        scissorButton = new JButton("Scissor");
+        scissorButton = new JButton("Scissors");
         scissorButton.setBounds(280, 390, 105, 80);
         scissorButton.setFont(new Font("Dialog", Font.PLAIN, 18));
+        rockButton.addActionListener(this);
         add(scissorButton);
 
         showDialog("Test MEssage");
@@ -100,5 +112,24 @@ public class RockPaperScissorGUI extends JFrame {
 
         resultDialog.setLocationRelativeTo(this);
         resultDialog.setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        // Handle button clicks here
+        String playerChoice = e.getActionCommand().toString();
+
+        // Play rock paper scissor and store result into string
+        String result = rockPaperScissor.playRockPaperScissor(playerChoice);
+
+        // Load computers choice
+        computerChoice.setText(rockPaperScissor.getComputerChoice());
+
+        // Update score
+        computerScoreLabel.setText("Computer Score: " + rockPaperScissor.getComputerScore());
+        playerScoreLabel.setText("Player Score: " + rockPaperScissor.getPlayerScore());
+
+        // Show result dialog
+        showDialog(result);
     }
 }
