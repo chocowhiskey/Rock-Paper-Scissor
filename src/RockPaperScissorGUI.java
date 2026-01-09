@@ -1,10 +1,13 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class RockPaperScissorGUI extends JFrame {
 
     // player buttons
     JButton rockButton, paperButton, scissorButton;
+    JLabel computerChoice;
 
     public RockPaperScissorGUI() {
         // GUI implementation for Rock Paper Scissor game
@@ -37,7 +40,7 @@ public class RockPaperScissorGUI extends JFrame {
         add(computerScoreLabel);
 
         // Create computer choice
-        JLabel computerChoice = new JLabel("?");
+        computerChoice = new JLabel("?");
         computerChoice.setBounds(175, 118, 100, 80);
         computerChoice.setFont(new Font("Dialog", Font.PLAIN, 18));
         computerChoice.setHorizontalAlignment(SwingConstants.CENTER);
@@ -69,5 +72,33 @@ public class RockPaperScissorGUI extends JFrame {
         scissorButton.setBounds(280, 390, 105, 80);
         scissorButton.setFont(new Font("Dialog", Font.PLAIN, 18));
         add(scissorButton);
+
+        showDialog("Test MEssage");
+    }
+
+    private void showDialog(String message) {
+        JDialog resultDialog = new JDialog(this, "Game Result", true);
+        resultDialog.setSize(300, 150);
+        resultDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        resultDialog.setResizable(false);
+
+        JLabel resultJLabel = new JLabel(message);
+        resultJLabel.setFont(new Font("Dialog", Font.BOLD, 18));
+        resultJLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        resultDialog.add(resultJLabel, BorderLayout.CENTER);
+
+        // Try again button
+        JButton tryAgainButton = new JButton("Try Again?");
+        tryAgainButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                computerChoice.setText("?");
+                resultDialog.dispose();
+            }
+        });
+        resultDialog.add(tryAgainButton, BorderLayout.SOUTH);
+
+        resultDialog.setLocationRelativeTo(this);
+        resultDialog.setVisible(true);
     }
 }
